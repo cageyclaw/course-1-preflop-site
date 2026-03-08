@@ -225,22 +225,38 @@ type DrillStore = Record<string, DrillProgress>
 function Drill({ drillId }: { drillId: string }) {
   const drill = drillBank[drillId]
   const [answers, setAnswers] = useState<Record<string, number>>({})
+  const [hydrated, setHydrated] = useState(false)
 
   useEffect(() => {
+    setHydrated(false)
     const stored = localStorage.getItem(storageKey)
-    if (!stored) return
+    if (!stored) {
+      setAnswers({})
+      setHydrated(true)
+      return
+    }
     try {
       const parsed = JSON.parse(stored) as DrillStore
       const entry = parsed[drillId]
-      if (entry?.answers) setAnswers(entry.answers)
+      setAnswers(entry?.answers ?? {})
     } catch {
-      // ignore
+      setAnswers({})
+    } finally {
+      setHydrated(true)
     }
   }, [drillId])
 
   useEffect(() => {
+    if (!hydrated) return
     const stored = localStorage.getItem(storageKey)
-    const parsed = stored ? (JSON.parse(stored) as DrillStore) : {}
+    let parsed: DrillStore = {}
+    if (stored) {
+      try {
+        parsed = JSON.parse(stored) as DrillStore
+      } catch {
+        parsed = {}
+      }
+    }
     const next: DrillStore = {
       ...parsed,
       [drillId]: {
@@ -249,7 +265,7 @@ function Drill({ drillId }: { drillId: string }) {
       },
     }
     localStorage.setItem(storageKey, JSON.stringify(next))
-  }, [answers, drillId])
+  }, [answers, drillId, hydrated])
 
   const score = drill.questions.reduce((total, q) => {
     if (answers[q.id] === q.correctIndex) return total + 1
@@ -372,7 +388,8 @@ function App() {
     let isMounted = true
     const load = async () => {
       try {
-        const res = await fetch(`/course-md/${current.file}`)
+        const base = import.meta.env.BASE_URL ?? '/'
+        const res = await fetch(`${base}course-md/${current.file}`)
         const text = await res.text()
         const html = (await marked.parse(text)) as string
         if (isMounted) setContentHtml(html)
