@@ -130,6 +130,163 @@ body {
   cursor: not-allowed;
 }
 
+.drill {
+  margin-top: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.drill-card {
+  background: #171b29;
+  border: 1px solid #2a3046;
+  border-radius: 12px;
+  padding: 20px 22px;
+}
+
+.drill-card h2 {
+  margin: 0 0 8px 0;
+}
+
+.drill-intro {
+  margin: 0 0 16px 0;
+  color: #cbd2df;
+}
+
+.drill-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+  align-items: center;
+}
+
+.drill-score {
+  font-size: 14px;
+  color: #c8d0e0;
+}
+
+.drill-reset {
+  margin-left: auto;
+  background: #2b3148;
+  border: 1px solid #3a425c;
+  color: #e6e6e6;
+  padding: 8px 14px;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.drill-questions {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.question-card {
+  background: #131724;
+  border: 1px solid #2a3046;
+  border-radius: 12px;
+  padding: 18px 20px;
+}
+
+.question-header {
+  display: flex;
+  gap: 12px;
+  align-items: flex-start;
+  margin-bottom: 12px;
+}
+
+.question-title {
+  font-weight: 600;
+  line-height: 1.4;
+}
+
+.stoplight {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  margin-top: 6px;
+  box-shadow: 0 0 6px rgba(255, 255, 255, 0.2);
+}
+
+.stoplight.green {
+  background: #2dcc70;
+}
+
+.stoplight.yellow {
+  background: #f1c40f;
+}
+
+.stoplight.red {
+  background: #e74c3c;
+}
+
+.question-choices {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 10px;
+}
+
+.choice {
+  background: #1c2030;
+  border: 1px solid #2f3550;
+  color: #e0e5f0;
+  padding: 10px 12px;
+  border-radius: 8px;
+  cursor: pointer;
+  text-align: left;
+}
+
+.choice:hover {
+  border-color: #4a67ff;
+}
+
+.choice.selected {
+  border-color: #7aa2ff;
+  background: #232b45;
+}
+
+.choice.correct {
+  border-color: #2ecc71;
+  background: rgba(46, 204, 113, 0.15);
+  color: #d5f7e4;
+}
+
+.choice.incorrect {
+  border-color: #e74c3c;
+  background: rgba(231, 76, 60, 0.15);
+  color: #ffd6d1;
+}
+
+.feedback {
+  margin-top: 12px;
+  font-size: 14px;
+  color: #cbd2df;
+}
+
+.feedback.good {
+  color: #aee8c5;
+}
+
+.feedback.bad {
+  color: #ffb3aa;
+}
+
+.drill-summary {
+  border-radius: 12px;
+  border: 1px solid #2a3046;
+  padding: 18px 20px;
+  background: #171b29;
+}
+
+.drill-summary h3 {
+  margin-top: 0;
+}
+
+.drill-summary-note {
+  color: #9aa3b2;
+  font-size: 13px;
+}
+
 @media (max-width: 900px) {
   .app {
     flex-direction: column;
