@@ -383,9 +383,22 @@ function App() {
 
   const current = useMemo(() => chapters[currentIndex], [currentIndex])
 
-  // UX: when switching sections, always start at the top
+  // UX: when switching sections, always start at the top.
+  // Note: browsers may try to keep the focused "Next" button in view, which can
+  // re-scroll you to the bottom. We blur focus and scroll after paint.
   useEffect(() => {
-    window.scrollTo({ top: 0, left: 0, behavior: 'instant' as ScrollBehavior })
+    const active = document.activeElement
+    if (active instanceof HTMLElement) active.blur()
+
+    const scrollTop = () => {
+      window.scrollTo({ top: 0, left: 0, behavior: 'auto' })
+      document.documentElement.scrollTop = 0
+      document.body.scrollTop = 0
+    }
+
+    scrollTop()
+    requestAnimationFrame(scrollTop)
+    setTimeout(scrollTop, 0)
   }, [currentIndex])
 
   useEffect(() => {
