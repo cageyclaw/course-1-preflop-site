@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="960" height="360" viewBox="0 0 960 360" role="img" aria-label="3-bet matrix">
+  <rect width="960" height="360" fill="#111827" rx="20"/>
+  <text x="40" y="55" fill="#f3f4f6" font-family="Inter,Arial" font-size="28" font-weight="700">3-Bet Matrix (Simple Baseline)</text>
+  <rect x="40" y="90" width="280" height="220" rx="12" fill="#1f2937" stroke="#60a5fa"/>
+  <text x="65" y="125" fill="#bfdbfe" font-size="20" font-family="Inter,Arial">Value</text>
+  <text x="65" y="160" fill="#e5e7eb" font-size="16" font-family="Inter,Arial">TT+, AQs+, AK</text>
+  <rect x="340" y="90" width="280" height="220" rx="12" fill="#1f2937" stroke="#f59e0b"/>
+  <text x="365" y="125" fill="#fde68a" font-size="20" font-family="Inter,Arial">Bluff / Pressure</text>
+  <text x="365" y="160" fill="#e5e7eb" font-size="16" font-family="Inter,Arial">A5s-A2s, some suited broadways</text>
+  <rect x="640" y="90" width="280" height="220" rx="12" fill="#1f2937" stroke="#34d399"/>
+  <text x="665" y="125" fill="#a7f3d0" font-size="20" font-family="Inter,Arial">Call or Fold</text>
+  <text x="665" y="160" fill="#e5e7eb" font-size="16" font-family="Inter,Arial">Medium strength / dominated offsuit</text>
+</svg>

@@ -200,17 +200,17 @@ const drillBank: Record<string, DrillData> = {
 }
 
 const chapters: Chapter[] = [
-  { id: 'A1', title: 'A1 — Introduction', type: 'markdown', file: 'A1.md' },
-  { id: 'A2', title: 'A2 — Starting Hands', type: 'markdown', file: 'A2.md' },
-  { id: 'A3', title: 'A3 — Position Basics', type: 'markdown', file: 'A3.md' },
-  { id: 'A4', title: 'A4 — Open Sizes', type: 'markdown', file: 'A4.md' },
-  { id: 'A5', title: 'A5 — 3-Bet Strategy', type: 'markdown', file: 'A5.md' },
-  { id: 'A6', title: 'A6 — 4-Bet Concepts', type: 'markdown', file: 'A6.md' },
-  { id: 'A7', title: 'A7 — Recap & Next Steps', type: 'markdown', file: 'A7.md' },
-  { id: 'D1', title: 'D1 — Hand Selection Drill', type: 'drill', drillId: 'd1' },
-  { id: 'D2', title: 'D2 — Position Drill', type: 'drill', drillId: 'd2' },
-  { id: 'D3', title: 'D3 — 3-Bet / 4-Bet Drill', type: 'drill', drillId: 'd3' },
-  { id: 'D4', title: 'D4 — Sizing & Frequency Drill', type: 'drill', drillId: 'd4' },
+  { id: 'A1', title: 'RFI (Raise First In)', type: 'markdown', file: 'A1.md' },
+  { id: 'A2', title: '3-Bet Strategy', type: 'markdown', file: 'A2.md' },
+  { id: 'A3', title: 'Facing a 3-Bet', type: 'markdown', file: 'A3.md' },
+  { id: 'A4', title: 'Blind Defense (SB/BB)', type: 'markdown', file: 'A4.md' },
+  { id: 'A5', title: 'Isolation (ISO) Raising & Sizing', type: 'markdown', file: 'A5.md' },
+  { id: 'A6', title: 'Stack Depth (Shallow vs Deep)', type: 'markdown', file: 'A6.md' },
+  { id: 'A7', title: '30-Day Preflop Plan', type: 'markdown', file: 'A7.md' },
+  { id: 'D1', title: 'Hand Selection Drill', type: 'drill', drillId: 'd1' },
+  { id: 'D2', title: 'Position Drill', type: 'drill', drillId: 'd2' },
+  { id: 'D3', title: '3-Bet / 4-Bet Drill', type: 'drill', drillId: 'd3' },
+  { id: 'D4', title: 'Sizing & Frequency Drill', type: 'drill', drillId: 'd4' },
 ]
 
 const storageKey = 'course-1-preflop-drills'
@@ -393,7 +393,7 @@ function App() {
         const text = await res.text()
         const html = (await marked.parse(text)) as string
         if (isMounted) setContentHtml(html)
-      } catch (err) {
+      } catch {
         if (isMounted)
           setContentHtml(
             '<p>Failed to load chapter. Check the markdown path.</p>'
@@ -411,7 +411,7 @@ function App() {
       <aside className="sidebar">
         <div className="brand">
           <div className="brand-title">Course 1 — Preflop</div>
-          <div className="brand-sub">Chapters A1–A7 + Drills D1–D4</div>
+          <div className="brand-sub">Chapters + Drills</div>
         </div>
         <nav className="nav">
           {chapters.map((chapter, idx) => (
@@ -420,7 +420,6 @@ function App() {
               className={`nav-item ${idx === currentIndex ? 'active' : ''}`}
               onClick={() => setCurrentIndex(idx)}
             >
-              <span className="nav-id">{chapter.id}</span>
               <span className="nav-title">{chapter.title}</span>
             </button>
           ))}
@@ -430,7 +429,6 @@ function App() {
       <main className="content">
         <header className="content-header">
           <h1>{current.title}</h1>
-          <div className="content-meta">{current.id}</div>
         </header>
 
         {current.type === 'markdown' ? (
