@@ -389,7 +389,12 @@ function App() {
     const load = async () => {
       try {
         const base = import.meta.env.BASE_URL ?? '/'
-        const res = await fetch(`${base}course-md/${current.file}`)
+        // Avoid stale markdown after deploy (GitHub Pages can be aggressively cached)
+        const v = import.meta.env.VITE_BUILD_ID
+        const qs = v ? `?v=${encodeURIComponent(String(v))}` : ''
+        const res = await fetch(`${base}course-md/${current.file}${qs}`, {
+          cache: 'no-store',
+        })
         const text = await res.text()
         const html = (await marked.parse(text)) as string
         if (isMounted) setContentHtml(html)
