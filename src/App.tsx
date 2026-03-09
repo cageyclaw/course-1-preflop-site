@@ -383,6 +383,11 @@ function App() {
 
   const current = useMemo(() => chapters[currentIndex], [currentIndex])
 
+  // UX: when switching sections, always start at the top
+  useEffect(() => {
+    window.scrollTo({ top: 0, left: 0, behavior: 'instant' as ScrollBehavior })
+  }, [currentIndex])
+
   useEffect(() => {
     if (current.type !== 'markdown') return
     let isMounted = true
