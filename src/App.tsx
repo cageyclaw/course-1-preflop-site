@@ -439,8 +439,16 @@ function App() {
     <div className="app">
       <aside className="sidebar">
         <div className="brand">
-          <div className="brand-title">Course 1 — Preflop</div>
-          <div className="brand-sub">Chapters + Drills</div>
+          <img
+            className="brand-icon"
+            src={`${import.meta.env.BASE_URL}course-assets/cards-icon.svg`}
+            alt="Poker cards icon"
+          />
+          <div className="brand-copy">
+            <div className="brand-kicker">PlayPokerWinMoney</div>
+            <div className="brand-title">Course 1 — Preflop</div>
+            <div className="brand-sub">Chapters + Drills</div>
+          </div>
         </div>
         <nav className="nav">
           {chapters.map((chapter, idx) => (
@@ -457,7 +465,23 @@ function App() {
 
       <main className="content">
         <header className="content-header">
-          <h1>{current.title}</h1>
+          <div className="content-hero">
+            <div className="content-hero-copy">
+              <span className="content-pill">
+                {current.type === 'markdown' ? 'Lesson' : 'Drill'}
+              </span>
+              <h1>{current.title}</h1>
+              <p className="content-summary">
+                Tight ranges, clean pressure, fewer spews. Learn the spots that
+                actually move your preflop win rate.
+              </p>
+            </div>
+            <img
+              className="content-hero-art"
+              src={`${import.meta.env.BASE_URL}course-assets/poker-hero.svg`}
+              alt="Stylized poker table with chips and cards"
+            />
+          </div>
         </header>
 
         {current.type === 'markdown' ? (
@@ -468,6 +492,13 @@ function App() {
         ) : (
           <Drill drillId={current.drillId ?? 'd1'} />
         )}
+
+        <div className="section-divider" aria-hidden="true">
+          <img
+            src={`${import.meta.env.BASE_URL}course-assets/table-divider.svg`}
+            alt=""
+          />
+        </div>
 
         <div className="pager">
           <button
