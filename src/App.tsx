@@ -417,7 +417,10 @@ function App() {
         // Safety: strip internal chapter codes from markdown headings if any slip through
         // Examples: "# A1 — Title" / "## D3 — Drill" etc.
         text = text.replace(/^(#{1,6})\s*[A-D]\d+\s*[—-]\s*/gim, '$1 ')
-        const html = (await marked.parse(text)) as string
+        let html = (await marked.parse(text)) as string
+        // GitHub Pages base-path fix: markdown often references /course-md/... (root),
+        // but this site is hosted under /course-1-preflop-site/. Rewrite to include BASE_URL.
+        html = html.replaceAll('src="/course-md/', `src="${base}course-md/`)
         if (isMounted) setContentHtml(html)
       } catch {
         if (isMounted)
