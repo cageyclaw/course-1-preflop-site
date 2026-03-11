@@ -1,0 +1,42 @@
+:root {
+  --chart-canvas: #0f1115;
+  --chart-panel: #121624;
+  --chart-panel-alt: #151b2b;
+  --chart-border: #2a3046;
+  --chart-text-strong: #e6e6e6;
+  --chart-text: #d6d9e0;
+  --chart-text-muted: #9aa3b2;
+  --chart-accent: #4a67ff;
+  --chart-accent-soft: #9cb1ff;
+  --chart-accent-alt: #38bdf8;
+  --chart-success: #22c55e;
+  --chart-warning: #f97316;
+  --chart-danger: #e74c3c;
+}
+
+.chart-frame {
+  width: 100%;
+  height: auto;
+  display: block;
+  max-width: 900px;
+}
+
+.chart-frame__bg {
+  fill: var(--chart-panel);
+}
+
+.chart-frame__title {
+  fill: var(--chart-text-strong);
+}
+
+.chart-frame__subtitle {
+  fill: var(--chart-text-muted);
+}
+
+.chart-frame__label {
+  fill: var(--chart-text);
+}
+
+.chart-frame__note {
+  fill: var(--chart-text-muted);
+}

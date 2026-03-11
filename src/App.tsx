@@ -1,6 +1,7 @@
 import { useEffect, useMemo, useState } from 'react'
 import { marked } from 'marked'
 import './App.css'
+import './visuals/visuals.css'
 
 type Chapter = {
   id: string
@@ -214,34 +215,34 @@ const quizBank: Record<string, DrillData> = {
       },
       {
         id: 'a1-q2',
-        prompt: 'Which position should be tightest by default?',
-        choices: ['UTG / Early Position', 'CO', 'Button', 'Small Blind is widest'],
+        prompt: 'RFI sizing discipline means you:',
+        choices: [
+          'Use the same open size for your whole range',
+          'Go bigger with strong hands',
+          'Min-raise only on the Button',
+          'Size by table vibe',
+        ],
         correctIndex: 0,
-        explanation: 'Early position is tight because you are out of position versus stronger ranges.',
+        explanation: 'Consistent sizing keeps your range protected and avoids tells.',
       },
       {
         id: 'a1-q3',
-        prompt: 'The “bottom-of-range” approach means you:',
-        choices: [
-          'Memorize only premium hands',
-          'Learn the weakest opens that define the border',
-          'Open only suited hands',
-          'Use different sizes for different hands',
-        ],
+        prompt: 'True or False: The Small Blind is a “discount Button.”',
+        choices: ['True', 'False'],
         correctIndex: 1,
-        explanation: 'Knowing the weakest opens lets you reconstruct the rest of the range quickly.',
+        explanation: 'False. The SB is out of position and should open tighter than the BTN.',
       },
       {
         id: 'a1-q4',
-        prompt: 'Why avoid opening too thin in early position?',
+        prompt: 'A strong filter for choosing opens is whether the hand is:',
         choices: [
-          'You win the blinds too often',
-          'You face more 3-bets and dominated spots out of position',
-          'It disguises your hand too well',
-          'The blinds always fold anyway',
+          'Defendable vs a 3-bet and playable',
+          'Pretty and suited',
+          'Any two cards in position',
+          'Only premiums',
         ],
-        correctIndex: 1,
-        explanation: 'Thin EP opens get punished by stronger ranges and poor equity realization.',
+        correctIndex: 0,
+        explanation: 'If a hand can’t comfortably continue versus pressure, it’s usually too thin to open.',
       },
     ],
   },
@@ -262,14 +263,14 @@ const quizBank: Record<string, DrillData> = {
         prompt: 'Use a more linear 3-bet range when you expect:',
         choices: ['Calls', 'Folds', 'Only 4-bets', 'No action at all'],
         correctIndex: 0,
-        explanation: 'Linear ranges work best when villains call often, so you want many strong hands.',
+        explanation: 'Linear ranges work best when opponents call often, so you want more strong hands.',
       },
       {
         id: 'a2-q3',
-        prompt: 'Default in-position 3-bet sizing is:',
-        choices: ['3x the open', '2x the open', '4.5x the open', 'Match the open'],
+        prompt: 'Default out-of-position 3-bet sizing in this course is:',
+        choices: ['3.5x the open', '3x the open', '2x the open', 'Match the open'],
         correctIndex: 0,
-        explanation: 'The course baseline is 3x IP and bigger OOP.',
+        explanation: 'OOP you size up to deny equity and reduce positional disadvantage.',
       },
       {
         id: 'a2-q4',
@@ -299,10 +300,15 @@ const quizBank: Record<string, DrillData> = {
       },
       {
         id: 'a3-q2',
-        prompt: 'A classic in-position call vs a 3-bet is:',
-        choices: ['KQs', 'AJo', 'KQo', 'QTo'],
+        prompt: 'Versus a very tight 3-bettor, your best adjustment is to:',
+        choices: [
+          'Tighten continuing range and 4-bet less',
+          'Call wider to see flops',
+          '3-bet more',
+          'Jam any ace',
+        ],
         correctIndex: 0,
-        explanation: 'Suited broadways like KQs realize equity well in position.',
+        explanation: 'If their range is strong, you should defend less and avoid thin continues.',
       },
       {
         id: 'a3-q3',
@@ -394,24 +400,39 @@ const quizBank: Record<string, DrillData> = {
       },
       {
         id: 'a5-q2',
-        prompt: 'Default ISO size rule-of-thumb is:',
-        choices: ['3bb + 1bb per limper', '2bb flat', 'Pot-sized always', 'Min-raise'],
+        prompt: 'Rule-of-thumb ISO sizing is:',
+        choices: [
+          '3bb + 1bb per limper (then adjust)',
+          '2bb flat',
+          'Pot-sized always',
+          'Min-raise',
+        ],
         correctIndex: 0,
-        explanation: '3bb + 1bb per limper is the baseline sizing rule.',
+        explanation: 'The baseline formula is 3bb + 1bb per limper, then tweak for table dynamics.',
       },
       {
         id: 'a5-q3',
-        prompt: 'ISO ranges are usually:',
-        choices: ['Slightly tighter than RFI', 'Much wider than RFI', 'Always identical to RFI', 'Only premiums'],
+        prompt: 'Before ISO-raising, you should account for:',
+        choices: [
+          'Players behind who can squeeze',
+          'Only your own stack',
+          'Nothing; always ISO',
+          'Your image only',
+        ],
         correctIndex: 0,
-        explanation: 'ISO is not a steal; you are building a pot vs a caller, often OOP.',
+        explanation: 'More aggressive players behind increase squeeze risk and shrink your ISO range.',
       },
       {
         id: 'a5-q4',
-        prompt: 'If your ISO keeps getting multiple callers, you should:',
-        choices: ['Size up to isolate', 'Size down', 'Never ISO again', 'Limp behind more'],
+        prompt: 'ISO ranges are usually:',
+        choices: [
+          'Slightly tighter than RFI',
+          'Much wider than RFI',
+          'Always identical to RFI',
+          'Only premiums',
+        ],
         correctIndex: 0,
-        explanation: 'Bigger sizing discourages the field and helps you reach heads-up pots.',
+        explanation: 'ISO is not a steal; you are building a pot vs a caller, often OOP.',
       },
     ],
   },
@@ -422,10 +443,15 @@ const quizBank: Record<string, DrillData> = {
     questions: [
       {
         id: 'a6-q1',
-        prompt: 'Shallow stacks (under ~40bb) generally favor:',
-        choices: ['Broadways and pairs', 'Only suited connectors', 'Small suited gappers', 'Any two cards'],
+        prompt: 'Shallow stacks (under ~40bb) usually favor:',
+        choices: [
+          'High-card hands and pairs that make top pair',
+          'Only suited connectors',
+          'Any two suited cards',
+          'Weak offsuit gappers',
+        ],
         correctIndex: 0,
-        explanation: 'Shallow stacks reward top-pair hands and simplify postflop play.',
+        explanation: 'Shallow stacks reward hands that make strong top pairs quickly.',
       },
       {
         id: 'a6-q2',
@@ -448,7 +474,7 @@ const quizBank: Record<string, DrillData> = {
       },
       {
         id: 'a6-q4',
-        prompt: 'Deep stacks require extra caution with:',
+        prompt: 'Reverse implied odds are most dangerous with:',
         choices: [
           'Dominated top-pair hands',
           'Strong suited connectors',
@@ -456,7 +482,7 @@ const quizBank: Record<string, DrillData> = {
           'Nut flushes',
         ],
         correctIndex: 0,
-        explanation: 'Reverse implied odds punish weak top pairs when stacks are deep.',
+        explanation: 'Deep stacks punish weak top pairs when you’re dominated.',
       },
     ],
   },
@@ -498,10 +524,15 @@ const quizBank: Record<string, DrillData> = {
       },
       {
         id: 'a7-q4',
-        prompt: 'Week 1 of the 30-day schedule focuses on:',
-        choices: ['RFI fundamentals', 'Blind defense only', 'Postflop play', '4-bet shoving'],
+        prompt: 'The plan emphasizes:',
+        choices: [
+          'Habits + review, not memorizing a rigid schedule',
+          'Memorizing the entire 30-day calendar',
+          'Volume over accuracy',
+          'Skipping review',
+        ],
         correctIndex: 0,
-        explanation: 'Week 1 is RFI: BTN/CO/HJ and bottom-of-range review.',
+        explanation: 'Consistency and review matter more than perfectly memorizing the calendar.',
       },
     ],
   },
