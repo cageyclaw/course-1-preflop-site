@@ -567,8 +567,8 @@ type QuestionSetProps = {
   setId: string
   storageKey: string
   resetLabel: string
-  summaryTitle: string
-  summaryNote: string
+  summaryTitle: string | ((score: number, total: number) => string)
+  summaryNote: string | ((score: number, total: number) => string)
 }
 
 function QuestionSet({
@@ -632,6 +632,16 @@ function QuestionSet({
   ).length
 
   const completed = answeredCount === data.questions.length
+
+  const resolvedSummaryTitle =
+    typeof summaryTitle === 'function'
+      ? summaryTitle(score, data.questions.length)
+      : summaryTitle
+
+  const resolvedSummaryNote =
+    typeof summaryNote === 'function'
+      ? summaryNote(score, data.questions.length)
+      : summaryNote
 
   const handleReset = () => {
     setAnswers({})
@@ -714,7 +724,7 @@ function QuestionSet({
 
       {completed && (
         <div className="drill-summary">
-          <h3>{summaryTitle}</h3>
+          <h3>{resolvedSummaryTitle}</h3>
           <p>
             You finished {data.title}. Final score:{' '}
             <strong>
@@ -722,7 +732,9 @@ function QuestionSet({
             </strong>
             .
           </p>
-          <p className="drill-summary-note">{summaryNote}</p>
+          {resolvedSummaryNote ? (
+            <p className="drill-summary-note">{resolvedSummaryNote}</p>
+          ) : null}
         </div>
       )}
     </section>
@@ -748,14 +760,27 @@ function Drill({ drillId }: { drillId: string }) {
 function Quiz({ quizId }: { quizId: string }) {
   const quiz = quizBank[quizId]
   if (!quiz) return null
+  const getQuizSummaryTitle = (score: number, total: number) => {
+    if (score === total) {
+      return "🎉 Perfect Score! Great work, Champ! You've got this chapter's fundamentals locked down. Take a break — you've earned it!"
+    }
+    if (score === total - 1) {
+      return "💪 Great Work! You've almost got this down cold. Review the questions you missed, then give it another shot!"
+    }
+    if (score === Math.ceil(total / 2)) {
+      return "📚 Getting There! Time for some more studying! Take a break, grab a drink. When you're ready, come back and try this chapter again."
+    }
+    return "📖 Time to Study! Don't worry — this is how we learn! Review the chapter content, then come back and try again. You've got this!"
+  }
+
   return (
     <QuestionSet
       data={quiz}
       setId={quizId}
       storageKey={quizStorageKey}
       resetLabel="Reset Quiz"
-      summaryTitle="Quiz Summary"
-      summaryNote="Review any misses before moving on to the next chapter."
+      summaryTitle={getQuizSummaryTitle}
+      summaryNote=""
     />
   )
 }
