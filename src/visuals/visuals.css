@@ -1,17 +1,17 @@
 :root {
-  --chart-canvas: #0f1115;
-  --chart-panel: #121624;
-  --chart-panel-alt: #151b2b;
-  --chart-border: #2a3046;
-  --chart-text-strong: #e6e6e6;
-  --chart-text: #d6d9e0;
-  --chart-text-muted: #9aa3b2;
-  --chart-accent: #4a67ff;
-  --chart-accent-soft: #9cb1ff;
-  --chart-accent-alt: #38bdf8;
-  --chart-success: #22c55e;
-  --chart-warning: #f97316;
-  --chart-danger: #e74c3c;
+  --chart-canvas: #f9f7f2;
+  --chart-panel: #f4f1ea;
+  --chart-panel-alt: #efe9dd;
+  --chart-border: #d7d1c5;
+  --chart-text-strong: #142236;
+  --chart-text: #2b3a4f;
+  --chart-text-muted: #6b7d8e;
+  --chart-accent: #1b7f7a;
+  --chart-accent-soft: #77b9b2;
+  --chart-accent-alt: #204e74;
+  --chart-success: #2c8a6d;
+  --chart-warning: #d4a33f;
+  --chart-danger: #b55252;
 }
 
 .chart-frame {
